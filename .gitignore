@@ -1,5 +1,6 @@
 # Teszt fájlok kihagyása
 **/files_xlsx/*.xlsx
+test.py
 
 # VsCode interpeter cache
 **/__pycache__
