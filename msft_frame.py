@@ -2,7 +2,7 @@ import msft_banner as ftbann
 
 
 # frame items
-dir_path = './files_xlsx/'
+dir_path = './msft/files_xlsx/'
 try_count = 0
 
 

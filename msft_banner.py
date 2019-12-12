@@ -1,7 +1,7 @@
 # banner items
 wellcome_str = 'Üdvözöl a  Máv-Start Forda Ellenőrző program!'
 # main_version.calendar.daily_relase
-version = 'ver: 0.191130.1'
+version = 'ver: 0.191212.1'
 # rows
 full_row = ['{0:#^55}', '\n', ]
 blind_row = ['{0:<}#', '{0:>53}#', '\n']
