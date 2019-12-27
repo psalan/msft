@@ -4,3 +4,6 @@ test.py
 
 # VsCode interpeter cache
 **/__pycache__
+
+# Ideiglenesen a core fájl kihagyása
+msft_core_xlsl.py
