@@ -1,7 +1,9 @@
 # banner items
 wellcome_str = 'Üdvözöl a  Máv-Start Forda Ellenőrző program!'
+
 # main_version.calendar.daily_relase
-version = 'ver: 0.191212.1'
+version = 'ver: 0.191227.1'
+
 # rows
 full_row = ['{0:#^55}', '\n', ]
 blind_row = ['{0:<}#', '{0:>53}#', '\n']
@@ -11,6 +13,9 @@ str2_row = ['{0:<}#', '{2:^53}', '#', '\n']
 # this is the ready banner
 banner = [full_row, blind_row, str1_row,
           blind_row, str2_row, blind_row, full_row]
+
+# Done
+done = True
 
 
 def make_banner(word_list):
@@ -26,3 +31,5 @@ def make_banner(word_list):
 
     print(wellcome_msg.format('', wellcome_str, version))
     print('\n')
+
+    return done
