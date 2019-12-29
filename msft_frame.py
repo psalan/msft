@@ -1,4 +1,5 @@
 import msft_banner as ftbann
+import msft_core_xlsl as ftcore
 
 
 class Frame_msft():
@@ -7,22 +8,29 @@ class Frame_msft():
         # frame items
         self.dir_path = './msft/files_xlsx/'
         self.try_count = 0
+        self.work_file = None
+
+    def set_work_file(self, filename):
+        """Beállítja a munkafájlt, az abszolút útvonalával."""
+        self.work_file = filename
 
     def get_work_file(self):
-        """Utasítást ad a munka fájl elhelyezésére,\
-            visszaadja munkafájlt és az útvonalát."""
+        """Utasítást ad a leendő munka fájl elhelyezésére,\
+            kéri annak elnevezését, azután hozzárendeli az\
+            abszolút útvonalat. Visszaadja munkafájlt és az\
+            útvonalát."""
 
         print('Másold az excel fájlt a "files_xlsx" könyvtárba!\
             \nMajd írd be a fájl nevét!')
 
-        work_file = input("A fájl neve: ")
-        work_file = self.dir_path + work_file
+        work_file_name = input("A fájl neve: ")
+        work_file = self.dir_path + work_file_name
         return work_file
 
-    def is_valid_filename(self, file):
+    def is_valid_filename(self, filename):
         """ Ellenőrzi, hogy a fájl létezik-e?"""
         try:
-            with open(file, "br") as f:
+            with open(filename, "br") as f:
                 f.read(1)
                 print('\n\tRendben! Megtaláltam a fájlt.')
             return True
@@ -51,6 +59,7 @@ class Frame_msft():
                 self.is_end()
             filename = self.get_work_file()
             if self.is_valid_filename(filename):
+                self.set_work_file(filename)
                 done = True
                 return done
             self.try_count += 1
@@ -63,5 +72,7 @@ class Frame_msft():
             self.app_end()
         else:
             if self.define_work():
-                print('Itt lesz a "mag"')
+                core = ftcore.Core_msft(self.work_file)
+
+                print(core.ws_wide())
                 self.app_end()
