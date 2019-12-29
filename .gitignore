@@ -1,9 +1,7 @@
 # Teszt fájlok kihagyása
 **/files_xlsx/*.xlsx
+!niexcel.xlsx
 test.py
 
 # VsCode interpeter cache
 **/__pycache__
-
-# Ideiglenesen a core fájl kihagyása
-msft_core_xlsl.py
