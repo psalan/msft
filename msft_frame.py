@@ -1,5 +1,6 @@
 import msft_banner as ftbann
 import msft_core_xlsl as ftcore
+import msft_inf_and_ins as ftinf
 
 
 class Frame_msft():
@@ -20,10 +21,8 @@ class Frame_msft():
             abszolút útvonalat. Visszaadja munkafájlt és az\
             útvonalát."""
 
-        print('Másold az excel fájlt a "files_xlsx" könyvtárba!\
-            \nMajd írd be a fájl nevét!')
-
-        work_file_name = input("A fájl neve: ")
+        ftinf.get_str(ftinf.frame['copy_file'])
+        work_file_name = input(ftinf.frame['answ_01'])
         work_file = self.dir_path + work_file_name
         return work_file
 
@@ -32,10 +31,10 @@ class Frame_msft():
         try:
             with open(filename, "br") as f:
                 f.read(1)
-                print('\n\tRendben! Megtaláltam a fájlt.')
+                ftinf.get_str(ftinf.frame['Ok'])
             return True
         except FileNotFoundError:
-            print('\nA fájl nem található!')
+            ftinf.get_str(ftinf.frame['not_ok'])
             return False
 
     def app_end(self):
@@ -45,10 +44,9 @@ class Frame_msft():
 
     def is_end(self):
         """A kilépés lehetőségét ajánlja fel."""
-        answer = str.lower(input('Kilépsz a programból?\
-            \nIGEN\n'))
+        answer = str.lower(input(ftinf.frame['answ_02']))
         if not (answer == 'n' or answer == 'nem'):
-            print('Ok.\nVisszlát!')
+            ftinf.get_str(ftinf.frame['bye'])
             self.app_end()
 
     def define_work(self):
@@ -73,6 +71,6 @@ class Frame_msft():
         else:
             if self.define_work():
                 core = ftcore.Core_msft(self.work_file)
+                core.core_auto_execution()
 
-                print(core.ws_wide())
                 self.app_end()

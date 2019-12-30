@@ -1,7 +1,8 @@
 import openpyxl
+import msft_inf_and_ins as ftinf
 
 
-class Core_msft():
+class Core_msft:
     """Egy excel fájl feldolgozását segítő osztály."""
 
     def __init__(self, filename):
@@ -52,3 +53,18 @@ class Core_msft():
                 find_simple_cell = self.separate
             count += 1
         return col_id
+
+    # Kutató alosztály
+    class Research_msft:
+        """ A excel munkalapon a szakaszokra bontott\
+            Szolgálatok kezdő és végpontjait kutatja fel. """
+
+        def __init__(self, entry_point=1):
+            pass
+
+    def core_auto_execution(self):
+        """ Az excel fájl automatikus feldolgozási\
+            folyamatát végző füügvény."""
+
+        ftinf.get_str(ftinf.core['start'])
+        ftinf.get_str_format(ftinf.core['ws_num'], len(self.ws_names))
