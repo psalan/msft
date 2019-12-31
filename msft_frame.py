@@ -71,6 +71,6 @@ class Frame_msft():
         else:
             if self.define_work():
                 core = ftcore.Core_msft(self.work_file)
-                core.core_auto_execution()
+                core.core_main()
 
                 self.app_end()
