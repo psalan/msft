@@ -21,5 +21,5 @@ frame = {'copy_file' : 'Másold az excel fájlt a "files_xlsx" könyvtárba!\
         'bye' : 'Ok.\nVisszlát!'}
 
 core = {'start' : '\n\tMegkezdem a fájl feldolgozásást.',
-        'ws_num' : '\n\tA fájl {0[0]} darab munkalapot tartalmaz. {0[1]}'
+        'ws_num' : '\n\tA fájl {0[0]} darab munkalapot tartalmaz.'
         }
