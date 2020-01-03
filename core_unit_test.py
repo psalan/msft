@@ -7,6 +7,7 @@ wb = core.wb
 ws = wb.worksheets
 first_cell = ws[0].cell(1, 1)
 second_cell = ws[0].cell(1, 2)
+core.set_active_ws(0)
 
 
 def tesztkeszlet():
@@ -15,7 +16,10 @@ def tesztkeszlet():
     teszt(core.is_merged_cell(first_cell) == False)
     teszt(core.is_simple_cell(second_cell) == False)
     teszt(core.is_merged_cell(second_cell) == True)
-    teszt(core.ws_wide() == 37)
+    teszt(core.count_ws_wide() != 35)
+    teszt(core.count_ws_wide() == 37)
+    teszt(core.count_ws_wide() != 38)
+
 
 if __name__ == "__main__":
     tesztkeszlet()
