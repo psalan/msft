@@ -29,6 +29,7 @@ class Core_msft:
                                 'ws_done': False,
                                 'ch_entry_point': None,
                                 'ch_end_point': None,
+                                'ch_separate': 0,
                                 'ch_is_last': None, }
 
         # Elöző kutatás
@@ -37,6 +38,7 @@ class Core_msft:
                                   'ws_done': False,
                                   'ch_entry_point': None,
                                   'ch_end_point': 0,
+                                  'ch_separate': 0,
                                   'ch_is_last': None, }
 
         # sor hossza, ennyi oszlopból áll
@@ -70,24 +72,38 @@ class Core_msft:
         cell = worksheet.cell(cell_row, cell_col)
         return cell
 
-    def count_ws_wide(self):
-        """ Visszatér a munkalap első sorának utolsó\
-            egyesített cellájához tartozó oszlop számával.\n
-            count_ws_wide()->int"""
-        count = 1
-        col_id = 1
-        find_simple_cell = 0
-        # addig keres, amíg 2db nem egyesített cellát talál egymás után
-        while find_simple_cell != 2:
-            examine_cell = self.rs_cell(
-                self.ws[self.active_research['ws_poz']], 1, count)
-            if self.is_simple_cell(examine_cell):
-                find_simple_cell += 1
+    def count_cell(self, args_lista: list = [1, 1, 0, 2, ]):
+        """ Visszatér a lista meghatározott cellájtól balra lévő, szintén\
+            a lista által meghatározott egyesített cellához tartozó\
+            oszlop számával. Kitétel, hogy a "merged_cell"-át,\
+            "simple_cell"-nek kell követni.\n
+            count_cell(list)->int"""
+        # args_lista = [row_id, col_id, merged_cell_id, find_simple_cell]
+        lista = args_lista
+        examine_cell = self.rs_cell(
+            self.ws[self.active_research['ws_poz']], lista[0], lista[1])
+        if lista[3] == 0:
+            return lista[2]
+        else:
             if self.is_merged_cell(examine_cell):
-                col_id = count
-                find_simple_cell = 0
-            count += 1
-        return col_id
+                lista[2] = lista[1]
+                lista[3] = 2    # általános kezdőérték
+            if self.is_simple_cell(examine_cell):
+                lista[3] -= 1
+            lista[1] += 1
+            return self.count_cell(lista)
+
+    def set_section_entry_point(self):
+        """ Beállítja az aktív kutatási szakasz belépési pontját.
+            \n pre: elöző_kutatási_szakasz
+            \n "belépési _pont" = "pre_kilépési_pont + 1 + \
+            "pre_elválasztó_köz" """
+        self.active_research['ch_entry_point'] = \
+            self.previous_research['ch_end_point'] + \
+            1 + self.previous_research['ch_separate']
+
+    def rs_section_end_point(self):
+        pass
 
     def core_main(self):
         """ Az excel fájl automatikus feldolgozását végző függvény."""
@@ -97,9 +113,12 @@ class Core_msft:
         for i in range(len(self.ws_names)):
             self.set_active_ws(i)
             if not self.ws_wide_done:
-                self.ws_wide = self.count_ws_wide()
+                self.ws_wide = self.count_cell()
+                self.ws_wide_done = True
+            self.set_section_entry_point()
+            self.rs_section_end_point()
 
             # intra test (törlendő)
             print(self.active_research)
-            print(self.rs_cell(
-                self.ws[self.active_research['ws_poz']], 1, 1).coordinate)
+            # print(self.rs_cell(
+            #     self.ws[self.active_research['ws_poz']], 1, 1).coordinate)

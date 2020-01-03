@@ -16,9 +16,9 @@ def tesztkeszlet():
     teszt(core.is_merged_cell(first_cell) == False)
     teszt(core.is_simple_cell(second_cell) == False)
     teszt(core.is_merged_cell(second_cell) == True)
-    teszt(core.count_ws_wide() != 35)
-    teszt(core.count_ws_wide() == 37)
-    teszt(core.count_ws_wide() != 38)
+    teszt(core.count_cell() != 35)
+    teszt(core.count_cell() == 37)
+    teszt(core.count_cell() != 38)
 
 
 if __name__ == "__main__":
