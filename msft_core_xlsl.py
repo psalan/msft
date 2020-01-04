@@ -10,6 +10,7 @@ class Core_msft:
         # Konstansok
         self.SIMPLE_CELL = "<class 'openpyxl.cell.cell.Cell'>"
         self.MERGED_CELL = "<class 'openpyxl.cell.cell.MergedCell'>"
+        self.SEPARATE = 2
 
         # Munkafájl
         self.work_file = filename
@@ -28,9 +29,9 @@ class Core_msft:
                                 'ws_name': None,
                                 'ws_done': False,
                                 'ch_entry_point': None,
-                                'ch_end_point': None,
+                                'ch_end_point': 0,
                                 'ch_separate': 0,
-                                'ch_is_last': None, }
+                                'ch_is_last': False, }
 
         # Elöző kutatás
         self.previous_research = {'ws_poz': None,
@@ -103,7 +104,64 @@ class Core_msft:
             1 + self.previous_research['ch_separate']
 
     def rs_section_end_point(self):
-        pass
+        """ Megkeresi és beállítja az aktív kutatási szakasz\
+            kilépési pontját."""
+        empty_row = self.SEPARATE
+        end_point = None
+        row_id = self.active_research['ch_entry_point'] + 1
+        while empty_row != 0:
+            find_empty_row = self.count_cell([row_id, 1, 0, 2])
+            if find_empty_row == 0:
+                empty_row -= 1
+                if empty_row == 0:
+                    end_point = row_id - self.SEPARATE
+            else:
+                empty_row = self.SEPARATE
+            row_id += 1
+        self.active_research['ch_end_point'] = end_point
+
+    def rs_is_end(self, num: int = 1):
+        """ Ellenőrzi, hogy ez a szkasz volt-e az utolsó. Ha igen, akkor\
+            beállítja az aktív kutatás értékét "True"-ra és visszaadja,\
+            azt. Ellenkező esetben "False" értéket ad.\
+            \nIlletve ellenőrzi a térköz állandóságát is.
+            \nrs_is_end()->Boolean"""
+        row_id = self.active_research['ch_end_point'] + self.SEPARATE + num
+        examine_row = self.count_cell([row_id, 1, 0, 2])
+        if examine_row == 0 and num == 1:
+            num += 1
+            return self.rs_is_end(num)
+        elif examine_row == 0 and num != 1:
+            self.active_research['ch_is_last'] = True
+            return self.active_research['ch_is_last']
+        elif examine_row != 0 and num == 1:
+            self.active_research['ch_separate'] = self.SEPARATE
+            return self.active_research['ch_is_last']
+        else:
+            ftinf.get_str_format(
+                ftinf.core['check_file'], self.active_research['ch_end_point'])
+            return exit()
+
+    def transmission_2store(self):
+        """ Az aktív tárolóból az adatok átvitele az ideiglenes tárolóba."""
+        self.previous_research = self.active_research.copy()
+
+    def wipe_research(self):
+        """ Tárolók visszaállása a kiinduló helyzetbe. Új munkalap jön."""
+        self.active_research = {'ws_poz': None,
+                                'ws_name': None,
+                                'ws_done': False,
+                                'ch_entry_point': None,
+                                'ch_end_point': None,
+                                'ch_separate': 0,
+                                'ch_is_last': False, }
+        self.previous_research = {'ws_poz': None,
+                                  'ws_name': None,
+                                  'ws_done': False,
+                                  'ch_entry_point': None,
+                                  'ch_end_point': 0,
+                                  'ch_separate': 0,
+                                  'ch_is_last': None, }
 
     def core_main(self):
         """ Az excel fájl automatikus feldolgozását végző függvény."""
@@ -112,13 +170,19 @@ class Core_msft:
         ftinf.get_str_format(ftinf.core['ws_num'], len(self.ws_names))
         for i in range(len(self.ws_names)):
             self.set_active_ws(i)
-            if not self.ws_wide_done:
-                self.ws_wide = self.count_cell()
-                self.ws_wide_done = True
-            self.set_section_entry_point()
-            self.rs_section_end_point()
+            while not self.active_research['ch_is_last']:
+                if not self.ws_wide_done:
+                    self.ws_wide = self.count_cell()
+                    self.ws_wide_done = True
+                self.set_section_entry_point()
+                self.rs_section_end_point()
+                self.rs_is_end()
+                self.transmission_2store()
+                print(self.active_research)
+                print('Ide jön az adatgyűjtő rész.')
+            self.wipe_research()
 
             # intra test (törlendő)
-            print(self.active_research)
+            # print(self.active_research)
             # print(self.rs_cell(
             #     self.ws[self.active_research['ws_poz']], 1, 1).coordinate)
