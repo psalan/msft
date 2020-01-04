@@ -2,7 +2,7 @@
 wellcome_str = 'Üdvözöl a  Máv-Start Forda Ellenőrző program!'
 
 # main_version.calendar.daily_relase
-version = 'ver: 0.200103.2'
+version = 'ver: 0.200104.1'
 
 # rows
 full_row = ['{0:#^55}', '\n', ]
