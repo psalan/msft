@@ -1,5 +1,5 @@
 import msft_banner as ftbann
-import msft_core_xlsl as ftcore
+import msft_forda_teszt as ft
 import msft_inf_and_ins as ftinf
 
 
@@ -70,7 +70,6 @@ class Frame_msft():
             self.app_end()
         else:
             if self.define_work():
-                core = ftcore.Core_msft(self.work_file)
-                core.core_main()
+                ft.Forda_teszt(self.work_file)
 
                 self.app_end()

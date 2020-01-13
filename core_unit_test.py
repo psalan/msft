@@ -1,5 +1,6 @@
 from my_unit_test import teszt
 import msft_core_xlsl as t_core
+import msft_research as t_rs
 import msft_patterns as pattern
 
 file = './msft/files_xlsx/niexcel.xlsx'
@@ -16,17 +17,18 @@ def first_section():
     core.wipe_research()
     core.set_active_ws(0)
     core.set_section_entry_point()
-    core.rs_section_end_point()
-    core.rs_is_end()
+    rs = t_rs.Research_msft(core)
+    rs.rs_section_end_point()
+    rs.rs_is_end()
 
 
 # másodki szakasz
 def second_section():
     core.transmission_2store()
     core.set_section_entry_point()
-    core.rs_section_end_point()
-    core.rs_is_end()
-
+    rs = t_rs.Research_msft(core)
+    rs.rs_section_end_point()
+    rs.rs_is_end()
 
 
 def tesztkeszlet():
@@ -36,9 +38,10 @@ def tesztkeszlet():
     teszt(core.is_simple_cell(second_cell) == False)
     teszt(core.is_merged_cell(second_cell) == True)
     first_section()
-    teszt(core.count_cell() != 35)
-    teszt(core.count_cell() == 37)
-    teszt(core.count_cell() != 38)
+    rs = t_rs.Research_msft(core)
+    teszt(rs.rs_count_cell() != 35)
+    teszt(rs.rs_count_cell() == 37)
+    teszt(rs.rs_count_cell() != 38)
     teszt(core.active_research['ch_entry_point'] == 1)
     teszt(core.active_research['ch_end_point'] == 36)
     teszt(core.active_research['ch_end_point'] != 37)
@@ -50,8 +53,8 @@ def tesztkeszlet():
     teszt(core.active_research['ch_entry_point'] != 40)
     teszt(core.previous_research['ch_is_last'] == False)
     teszt(core.active_research['ch_is_last'] == True)
-    
-    core.rs_fix_it()
+
+    rs.rs_fix_it()
     print('\n')
     print(pattern.header_human_readable)
     print('\n')
