@@ -1,10 +1,12 @@
 from my_unit_test import teszt
 import msft_core_xlsl as t_core
+import msft_patterns as pattern
 
 file = './msft/files_xlsx/niexcel.xlsx'
 core = t_core.Core_msft(file)
 wb = core.wb
 ws = wb.worksheets
+core.ws_wide = 37
 first_cell = ws[0].cell(1, 1)
 second_cell = ws[0].cell(1, 2)
 
@@ -48,6 +50,16 @@ def tesztkeszlet():
     teszt(core.active_research['ch_entry_point'] != 40)
     teszt(core.previous_research['ch_is_last'] == False)
     teszt(core.active_research['ch_is_last'] == True)
+    
+    core.rs_fix_it()
+    print('\n')
+    print(pattern.header_human_readable)
+    print('\n')
+    print(pattern.header)
+    print('\n')
+    print(pattern.data_head_human_readable)
+    print('\n')
+    print(pattern.data_head)
 
 
 if __name__ == "__main__":

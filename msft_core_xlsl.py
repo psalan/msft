@@ -1,5 +1,6 @@
 import openpyxl
 import msft_inf_and_ins as ftinf
+import msft_patterns as ftpatt
 
 
 class Core_msft:
@@ -162,6 +163,36 @@ class Core_msft:
                                   'ch_end_point': 0,
                                   'ch_separate': 0,
                                   'ch_is_last': None, }
+
+    def rs_data_cell_positions(self, n_from: int, n_to: int):
+        """ Egy tartományon belüli "simple cell" koordinátáit (excel és\
+            sor/oszlop szám formátumban) és értékeit adja vissza listákba\
+            rendezve.\
+            \nrs_data_cell_positions(*args)->Tuple"""
+        examine_range = n_to + 1
+        cell_coordinates = []
+        cell_ids = []
+        cell_values = []
+        for n_from in range(n_from, examine_range,):
+            for i in range(1, self.ws_wide + 1):
+                examine_cell = self.rs_cell(
+                    self.ws[self.active_research['ws_poz']], n_from, i)
+                if self.is_simple_cell(examine_cell):
+                    cell_coordinates.append(examine_cell.coordinate)
+                    ids = (n_from, i)
+                    cell_ids.append(ids)
+                    cell_values.append(examine_cell.value)
+        return (cell_coordinates, cell_ids, cell_values)
+
+    def rs_fix_it(self, head: tuple = (1, 12), data: tuple = (14, 15)):
+        """ Új, valós értékekre állítja be az adatgyűjtés koordinátáit."""
+        head_cells = self.rs_data_cell_positions(head[0], head[1])
+        ftpatt.header = dict(zip(head_cells[0], head_cells[1]))
+        ftpatt.header_human_readable = dict(zip(head_cells[0], head_cells[2]))
+        data_cells = self.rs_data_cell_positions(data[0], data[1])
+        ftpatt.data_head = dict(zip(data_cells[0], data_cells[1]))
+        ftpatt.data_head_human_readable = dict(
+            zip(data_cells[0], data_cells[2]))
 
     def core_main(self):
         """ Az excel fájl automatikus feldolgozását végző függvény."""
