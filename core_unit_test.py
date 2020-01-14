@@ -1,7 +1,6 @@
 from my_unit_test import teszt
 import msft_core_xlsl as t_core
 import msft_research as t_rs
-import msft_patterns as pattern
 
 file = './msft/files_xlsx/niexcel.xlsx'
 core = t_core.Core_msft(file)
@@ -18,7 +17,7 @@ def first_section():
     core.set_active_ws(0)
     core.set_section_entry_point()
     rs = t_rs.Research_msft(core)
-    rs.rs_section_end_point()
+    core.active_research['ch_end_point'] = rs.rs_section_end_point()
     rs.rs_is_end()
 
 
@@ -27,7 +26,7 @@ def second_section():
     core.transmission_2store()
     core.set_section_entry_point()
     rs = t_rs.Research_msft(core)
-    rs.rs_section_end_point()
+    core.active_research['ch_end_point'] = rs.rs_section_end_point()
     rs.rs_is_end()
 
 
@@ -53,16 +52,6 @@ def tesztkeszlet():
     teszt(core.active_research['ch_entry_point'] != 40)
     teszt(core.previous_research['ch_is_last'] == False)
     teszt(core.active_research['ch_is_last'] == True)
-
-    rs.rs_fix_it()
-    print('\n')
-    print(pattern.header_human_readable)
-    print('\n')
-    print(pattern.header)
-    print('\n')
-    print(pattern.data_head_human_readable)
-    print('\n')
-    print(pattern.data_head)
 
 
 if __name__ == "__main__":
