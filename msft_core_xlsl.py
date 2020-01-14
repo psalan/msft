@@ -30,6 +30,10 @@ class Core_msft:
         self.ws_wide_done = False
         self.ws_wide = None
 
+    def __str__(self):
+        core_str = self.work_file + '\n' + self.active_research['ws_name']
+        return core_str
+
     def is_simple_cell(self, cell):
         """ Ha az argumentum cella típusa "simple', akkor True\
             értéket ad vissza, minden más esetben False-t\n
