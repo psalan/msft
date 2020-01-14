@@ -40,8 +40,8 @@ class Research_msft(Core_msft):
             return self.rs_count_cell(lista)
 
     def rs_section_end_point(self):
-        """ Megkeresi és beállítja az aktív kutatási szakasz\
-            kilépési pontját."""
+        """ Visszaadja az aktív kutatási szakasz kilépési pontját.\
+            \nrs_section_end_point()->Int"""
         empty_row = self.core.SEPARATE
         end_point = None
         row_id = self.core.active_research['ch_entry_point'] + 1
@@ -54,7 +54,7 @@ class Research_msft(Core_msft):
             else:
                 empty_row = self.core.SEPARATE
             row_id += 1
-        self.core.active_research['ch_end_point'] = end_point
+        return end_point
 
     def rs_is_end(self, num: int = 1):
         """ Ellenőrzi, hogy ez a szkasz volt-e az utolsó. Ha igen, akkor\
@@ -103,8 +103,8 @@ class Research_msft(Core_msft):
         """ Új, valós értékekre állítja be az adatgyűjtés koordinátáit."""
         head_cells = self.rs_data_cell_positions(head[0], head[1])
         print(head_cells)
-        ftpatt.header = dict(zip(head_cells[0], head_cells[1]))
-        ftpatt.header_human_readable = dict(zip(head_cells[0], head_cells[2]))
+        ftpatt.head = dict(zip(head_cells[0], head_cells[1]))
+        ftpatt.head_human_readable = dict(zip(head_cells[0], head_cells[2]))
         data_cells = self.rs_data_cell_positions(data[0], data[1])
         ftpatt.data_head = dict(zip(data_cells[0], data_cells[1]))
         ftpatt.data_head_human_readable = dict(
