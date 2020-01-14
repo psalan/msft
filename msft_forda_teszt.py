@@ -1,6 +1,8 @@
 import msft_inf_and_ins as ftinf
 from msft_core_xlsl import Core_msft
 from msft_research import Research_msft
+from msft_service_collect import Service_msft
+
 
 class Forda_teszt:
     """ Végre hajtja forda tesztelését."""
@@ -24,10 +26,10 @@ class Forda_teszt:
                     base.ws_wide = rs.rs_count_cell()
                     base.ws_wide_done = True
                 base.set_section_entry_point()
-                rs.rs_section_end_point()
+                base.active_research['ch_end_point'] = rs.rs_section_end_point()
                 rs.rs_is_end()
                 base.transmission_2store()
-                print(base.active_research)
-                print('Ide jön az adatgyűjtő rész.')
+                s = Service_msft(rs)
+                print(s)
+                print('Analízis + LOG \n')
             base.wipe_research()
-
