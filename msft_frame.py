@@ -4,6 +4,7 @@ import msft_inf_and_ins as ftinf
 
 
 class Frame_msft():
+    """ Egy keretet ad az excel fájl teszteléséhez."""
 
     def __init__(self):
         # frame items
