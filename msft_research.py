@@ -102,7 +102,6 @@ class Research_msft(Core_msft):
     def rs_fix_it(self, head: tuple = (1, 12), data: tuple = (14, 15)):
         """ Új, valós értékekre állítja be az adatgyűjtés koordinátáit."""
         head_cells = self.rs_data_cell_positions(head[0], head[1])
-        print(head_cells)
         ftpatt.head = dict(zip(head_cells[0], head_cells[1]))
         ftpatt.head_human_readable = dict(zip(head_cells[0], head_cells[2]))
         data_cells = self.rs_data_cell_positions(data[0], data[1])
