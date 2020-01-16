@@ -36,13 +36,20 @@ def view():
     # print(pattern.data_head)
 
     # Egyéb tesztek
-    print(s.change_dict2list(s.get_pattern_head()))
+    print(s)
+    head_coo = s.refresh_coordinates(s.change_dict2list(s.get_pattern_head()),
+                                  s.head)
+    print(s.get_content(head_coo))
 
 
 def tesztkeszlet():
     """A modulhoz tartozó tesztkészlet futatása."""
     teszt(type(s.get_pattern_head()) == type(dict()))
     teszt(type(s.change_dict2list(s.get_pattern_head())) == type(list()))
+    teszt(s.refresh_coordinates([(1, 5), (5, 2)], 5) != [(6, 5), (10, 2)])
+    teszt(s.refresh_coordinates([(1, 5), (5, 2)], 5) == [(5, 5), (9, 2)])
+    teszt(s.refresh_coordinates(s.change_dict2list(s.get_pattern_head()),\
+        s.head) == [(1, 31), (5, 15), (7, 15), (9, 15), (11, 15)])
 
 
 view()
