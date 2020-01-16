@@ -36,12 +36,27 @@ class Service_msft(Research_msft):
             value_list.append(t_dict[i])
         return value_list
 
-    # def set_head(self, head_list: list, num: int):
-    #     head = self.head
-    #     temp = self.refresh_data(self.head - 1)
-    #     for i in range(len(temp)):
-    #         examine_cell = self.rs.rs_cell(self.ws, temp[i][0], temp[i][1])
-    #         print(examine_cell.value)
+    def refresh_coordinates(self, coo_list: list, num: int):
+        """ A coo_list-ában szereplő valamennyi koordinátának a sor értékét\
+            megnöveli num értékével. Majd (a tuple-k miatt) egy új listában\
+            adja vissza az új koordinátákat.\
+            \nset_coordinates(*args)->list"""
+        new_coo_list = []
+        for i in range(len(coo_list)):
+            coordinate = coo_list[i]
+            row_id = coordinate[0]
+            new_row_id = row_id + num - 1
+            new_coordinate = (new_row_id, coordinate[1])
+            new_coo_list.append(new_coordinate)
+        return new_coo_list
 
-    def set_content(self):
-        pass
+    def get_content(self, coo_list: list):
+        """ Visszaad egy listát, amely a coo_list-ben levő koordinátapárokon\
+            található cellák értékeit tartalmazza\
+            \nget_content(coo_list)->list"""
+        values = []
+        for i in range(len(coo_list)):
+            coordinate = coo_list[i]
+            e_cell = self.rs.rs_cell(self.ws, coordinate[0], coordinate[1])
+            values.append(e_cell.value)
+        return values
